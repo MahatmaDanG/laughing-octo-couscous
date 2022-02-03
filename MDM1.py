@@ -36,11 +36,34 @@ def CombinedListSort(ProcessingList):
     return(ProcessingList)
 
     
+# def MinimumSpanningTree(Sorted):
+#     UsedLetters = []
+#     CorrectPaths = []
+#     for item in Sorted:
+#         UsedLetters = list(UsedLetters)                       ####### NOT WORKING #######
+#         Count = 0
+#         TestLetters = list(item[1])
+#         for letter in UsedLetters:
+#             if TestLetters[0] ==  letter:
+#                     Count+=1
+#             elif TestLetters[1] ==  letter:
+#                     Count+=1
+#         if Count == 2:
+#             break
+#         CorrectPaths.append(item[1])
+#         UsedLetters.extend(TestLetters)
+#         UsedLetters = set(UsedLetters)
+#     print(CorrectPaths,UsedLetters)
+                
+            
+        
+                    
+    
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~ Temporary Value Assignment ~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-N = 5                                                   # Matrix size (NxN)
+N = 5                                                # Matrix size (NxN)
 
 
 # ~~~~~~~~~~~~~~~~~
@@ -51,15 +74,15 @@ InputMatrix = RandMatGen(N)                             # Makes the input matrix
 InputList = MatToUTList(InputMatrix,N)                  # Turns input matrix into an upper triangular list
 Joined = CreateTuple(InputList, N)                      # Pairs the upper triangular list with letter pairs
 Sorted = CombinedListSort(Joined)                       # Sorts the combined list
-
+# MinimumSpanningTree(Sorted)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~
 # ~~ Temporary outputs ~~
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
-# print(InputMatrix, "\n")
-# print(InputList, "\n")
-# print(Joined, "\n")
+print(InputMatrix, "\n")
+print(InputList, "\n")
+print(Joined, "\n")
 print (Sorted)
 
 
