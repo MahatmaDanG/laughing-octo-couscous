@@ -51,4 +51,4 @@ def GenerateGraph(Matrix):
     # Lets see this beauty!
     plt.show()
 
-GenerateGraph(Matrix)
+#GenerateGraph(Matrix)
