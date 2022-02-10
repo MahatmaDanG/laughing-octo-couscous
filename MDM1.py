@@ -9,8 +9,6 @@ def RandMatGen (N):
     M = np.tril(a) + np.tril(a, -1).T                   # lower triangle + a transpose of upper triangle
     return (M)
 
-
-
 def MatToUTList(M,N):                                   # Converts the matrix to and upper triangular list
     UTList = []
     X = 0                                               
@@ -23,15 +21,10 @@ def MatToUTList(M,N):                                   # Converts the matrix to
         X += 1                                          # selects next row
     return(UTList) 
 
-
-                                     
-
 def CreateTuple(InputList,N):
     CharacterList = G.MatrixPairingList(N)              # Creates the list of letter pairs
     TupleList = list(zip(InputList,CharacterList))      # Joins Inputs and letter pairs in ordered pairs
     return(TupleList)
-
-
 
 def CombinedListSort(ProcessingList):
     ProcessingList.sort(key = lambda x: x[0])           # Sorts the combined list by matrix values
@@ -57,7 +50,6 @@ def WierdIdea(Sorted):
         UsedLetters.extend(TestLetters)
         UsedLetters = list(set(UsedLetters))
     return(CorrectPaths)
-
 
 def MinimumSpanningTree(Sorted,N):                        # Sorted: list of paths, order of mag
     print(Sorted)    
@@ -111,10 +103,7 @@ def MinimumSpanningTree(Sorted,N):                        # Sorted: list of path
 #     UsedPairs = []
 #     CorrectPaths = []
 #     for item in Sorted:
-        
-        
-
-    
+         
 # def Debug(Sorted):
 #     prints = 0
 #     for item in Sorted:
@@ -122,15 +111,11 @@ def MinimumSpanningTree(Sorted,N):                        # Sorted: list of path
 #         prints += 1 
 #     print(prints)          
             
-        
-                    
-    
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~ Temporary Value Assignment ~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 N = 5                                                # Matrix size (NxN)
-
 
 # ~~~~~~~~~~~~~~~~~
 # ~~ Running Hub ~~
