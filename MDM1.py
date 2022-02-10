@@ -53,7 +53,7 @@ def WierdIdea(Sorted):
         if Count == 2:
             Rejects.append(item[1])         # DELETABLE debug check
             continue
-        CorrectPaths.append(item[1])
+        CorrectPaths.append(item)
         UsedLetters.extend(TestLetters)
         UsedLetters = list(set(UsedLetters))
     return(CorrectPaths)
@@ -101,8 +101,8 @@ def MinimumSpanningTree(Sorted,N):                        # Sorted: list of path
     Length = len(CorrectPaths)
     if Length < (N-1):
         print(CorrectPaths,"\n")
-        CorrectPaths.extend(EvenElements[m.ceil((Length/2)):m.ceil((N-1)/2)])
-        CorrectPaths.extend(OddElements[m.floor((Length/2)):m.floor((N-1)/2)])
+        CorrectPaths.extend(EvenCheck[m.ceil((Length/2)):m.ceil((N-1)/2)])
+        CorrectPaths.extend(OddCheck[m.floor((Length/2)):m.floor((N-1)/2)])
     print(CorrectPaths,UsedLetters,Rejects,"\n",CorrectEven,CorrectOdd,"\n", EvenCheck, OddCheck)
     
     return(CorrectPaths)
@@ -141,6 +141,7 @@ InputList = MatToUTList(InputMatrix,N)                  # Turns input matrix int
 Joined = CreateTuple(InputList, N)                      # Pairs the upper triangular list with letter pairs
 Sorted = CombinedListSort(Joined)                       # Sorts the combined list
 Map.GenerateGraph(MinimumSpanningTree(Sorted,N))
+#print("\n\n", MinimumSpanningTree(Sorted,N))
 #Debug(Sorted)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~
