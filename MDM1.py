@@ -1,6 +1,6 @@
 import numpy as np
 import Generator as G
-import Graph_Generator as Map
+#import Graph_Generator as Map
 import math as m
 
 def RandMatGen (N):
@@ -49,7 +49,7 @@ def WierdIdea(Sorted):
                     Count+=1
             elif TestLetters[1] ==  letter:             # Checks if letter two is in list
                     Count+=1    
-            print(letter,Count)
+            #print(letter,Count)
         if Count == 2:
             Rejects.append(item[1])         # DELETABLE debug check
             continue
@@ -58,9 +58,40 @@ def WierdIdea(Sorted):
         UsedLetters = list(set(UsedLetters))
     return(CorrectPaths)
 
+def OccuranceCheck(Subset,MainSet):
+    NewVector = []
+    Removing = []
+    print(Subset,"Space",MainSet)
+    
+    for index,vector in enumerate(Subset):
+        end = False
+        while end == False:
+            for item in MainSet:
+                print(vector,item)
+                if vector == item:
+                    Removing.append(index)
+                    end = True
+                    break
+            if end == False:
+                NewVector.append(vector)
+                end = True
+    print(Removing)
+    return(NewVector,Removing)
+
+def Assembling(Indexs,Startlist,x):
+    Extras = []
+    #print(Indexs)
+    for loop in range(len(Indexs)):
+        #print(Indexs)
+        Extras.append(Startlist[Indexs[loop]-x])
+    return(Extras)
+    
+                
+    
+
 
 def MinimumSpanningTree(Sorted,N):                        # Sorted: list of paths, order of mag
-    print(Sorted)    
+    # print(Sorted)    
     UsedLetters = []                                    # Attempt to avoid loops
     CorrectPaths = []                                   # The programs aim
     CorrectEven = []
@@ -70,40 +101,67 @@ def MinimumSpanningTree(Sorted,N):                        # Sorted: list of path
     OddElements = []
     
     Rejects = []
-    for index,item in enumerate(Sorted):
-        if index%2 == 0:
-            EvenElements.append(item)
+    for index,item in enumerate(Sorted):                # Loops through every item and also provides their position in the set
+        if index%2 == 0:                                # Sorts the items into even or odd by index
+            EvenElements.append(item)                   # NOTE: index starts at 0
         else:
             OddElements.append(item)
-        print (item)                                 
+        #print (item)                                 
         Count = 0                                       # Counts if the point has already been visited
         TestLetters = list(item[1])                     # Turns the two letter path into two list elements
-        print(TestLetters)
+        #print(TestLetters)
         for letter in UsedLetters:
             if TestLetters[0] ==  letter:               # Checks if letter one is in list
                     Count+=1
             elif TestLetters[1] ==  letter:             # Checks if letter two is in list
                     Count+=1    
-            print(letter,Count)
+            #print(letter,Count)
         if Count == 2:
             Rejects.append(item[1])         # DELETABLE debug check
             continue
-        CorrectPaths.append(item)
+        CorrectPaths.append(item)                       
         if index % 2 == 0:
             CorrectEven.append(item)
         else:
             CorrectOdd.append(item)
             
-        UsedLetters.extend(TestLetters)
-        UsedLetters = list(set(UsedLetters))
-    EvenCheck = WierdIdea(EvenElements)
+        UsedLetters.extend(TestLetters)                 # Adds the new letters to the end of the used list
+        UsedLetters = list(set(UsedLetters))            # Takes the set and the list in order to have one occurunce of each letter
+    EvenCheck = WierdIdea(EvenElements)                 # Uses the above algorithm on the even and odd elements respectively
     OddCheck = WierdIdea(OddElements)
-    Length = len(CorrectPaths)
-    if Length < (N-1):
+    Length = len(CorrectPaths)                          # Made into a variable due to recurrance below
+    if Length < (N-1):                                  # N-1 is the paths needed for a minimum spanning tree
+        E,O = 1,0
         print(CorrectPaths,"\n")
-        CorrectPaths.extend(EvenCheck[m.ceil((Length/2)):m.ceil((N-1)/2)])
-        CorrectPaths.extend(OddCheck[m.floor((Length/2)):m.floor((N-1)/2)])
-    print(CorrectPaths,UsedLetters,Rejects,"\n",CorrectEven,CorrectOdd,"\n", EvenCheck, OddCheck)
+        EvenAdditions = EvenCheck[m.ceil((Length/2)):m.ceil((N-1)/2)]
+        OddAdditions = OddCheck[m.floor((Length/2)):m.floor((N-1)/2)]
+        # CorrectPaths.extend(EvenCheck[m.ceil((Length/2)):m.ceil((N-1)/2)])
+        # CorrectPaths.extend(OddCheck[m.floor((Length/2)):m.floor((N-1)/2)])
+        print("Pre-Occurance",EvenAdditions,OddAdditions)
+        if len(OddAdditions) != 0:
+            OddAdditions,OIndex = OccuranceCheck(OddAdditions,CorrectPaths)
+        if len(EvenAdditions) != 0:
+            EvenAdditions,EIndex = OccuranceCheck(EvenAdditions,CorrectPaths)
+        try:
+            OddAppends = OddAdditions.extend(Assembling(EIndex,OddCheck,O))
+        except UnboundLocalError:
+            OddAppends = OddAdditions
+        try:    
+            EvenAppends = EvenAdditions.extend(Assembling(OIndex,EvenCheck,E))
+        except UnboundLocalError:
+            EvenAppends = EvenAdditions
+        try:
+            #print(OddAppends)
+            CorrectPaths.extend(OddAppends)
+        except TypeError:
+            print("OddError")
+        try: 
+            #print(EvenAppends)
+            CorrectPaths.extend(EvenAppends)
+        except TypeError:
+            print("EvenError")
+    print(CorrectPaths,UsedLetters,Rejects,"\n",CorrectEven,CorrectOdd)
+    print("\n\nEvens:\n", EvenCheck,"\n\nOdds:\n", OddCheck)
     
     return(CorrectPaths)
 
@@ -135,13 +193,13 @@ N = 5                                                # Matrix size (NxN)
 # ~~~~~~~~~~~~~~~~~
 # ~~ Running Hub ~~
 # ~~~~~~~~~~~~~~~~~
-
+#InputList = [,4,67,23,]
 InputMatrix = RandMatGen(N)                             # Makes the input matrix
 InputList = MatToUTList(InputMatrix,N)                  # Turns input matrix into an upper triangular list
 Joined = CreateTuple(InputList, N)                      # Pairs the upper triangular list with letter pairs
 Sorted = CombinedListSort(Joined)                       # Sorts the combined list
-Map.GenerateGraph(MinimumSpanningTree(Sorted,N))
-#print("\n\n", MinimumSpanningTree(Sorted,N))
+#Map.GenerateGraph(MinimumSpanningTree(Sorted,N))
+print("\n\n", MinimumSpanningTree(Sorted,N))
 #Debug(Sorted)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~

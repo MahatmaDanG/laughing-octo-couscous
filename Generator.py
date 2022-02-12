@@ -12,4 +12,8 @@ def MatrixPairingList(N):
     for First in range(N-1):
         for Second in range(First+1,N):
             List.append(chr(65+First)+chr(65+Second))
-    return List
+    return(List)
+
+
+
+
